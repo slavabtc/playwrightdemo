@@ -1,16 +1,17 @@
-class LoginPage:
+from pages.base_page import BasePage
+
+class LoginPage(BasePage):
     def __init__(self, page):
-        self.page = page
-        self.username_input = page.locator("#user-name")
-        self.password_input = page.locator("#password")
-        self.login_button = page.locator("#login-button")
-        self.error_message = page.locator("[data-test='error']")
+        super().__init__(page)
+        self.username_input = "#user-name"
+        self.password_input = "#password"
+        self.login_button = "#login-button"
+        self.error_message = "[data-test='error']"
 
     def load(self):
-        self.page.goto("https://www.saucedemo.com/")
+        self.goto("https://www.saucedemo.com/")
 
     def login(self, username: str, password: str):
-        self.username_input.fill(username)
-        self.password_input.fill(password)
-        self.login_button.click()
-        #
+        self.fill(self.username_input, username)
+        self.fill(self.password_input, password)
+        self.click(self.login_button)

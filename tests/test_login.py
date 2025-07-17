@@ -21,6 +21,6 @@ def test_locked_out_user_login(page):
     time.sleep(1)
 
     # Assert error message is visible
-    assert login.error_message.is_visible()
-    assert "locked out" in login.error_message.text_content().lower()
+    assert login.is_visible(login.error_message)
+    assert "locked out" in login.get_text(login.error_message).lower()
     time.sleep(1)
