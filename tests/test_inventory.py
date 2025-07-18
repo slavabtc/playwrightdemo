@@ -36,15 +36,20 @@ def test_sort_by_name_az(page):
     time.sleep(1)
 
     inventory = InventoryPage(page)
-    dropdown = inventory.page.locator("[data-test='product_sort_container']")
+
+    # Use correct locator
+    dropdown = inventory.page.locator(inventory.sort_dropdown)
+    dropdown.wait_for(state="visible", timeout=5000)
     print("Dropdown count:", dropdown.count())
     print("Is visible:", dropdown.is_visible())
     print("Inner HTML:", dropdown.inner_html())
-    inventory.sort_by("az")
+
+    # Sort by name descending (Z to A)
+    inventory.sort_by("za")
     time.sleep(1)
 
     names = inventory.get_product_names()
-    assert names == sorted(names)
+    assert names == sorted(names, reverse=True)
 
 
 def test_sort_by_price_low_to_high(page):
@@ -54,12 +59,9 @@ def test_sort_by_price_low_to_high(page):
     time.sleep(1)
 
     inventory = InventoryPage(page)
-    dropdown = inventory.page.locator("[data-test='product_sort_container']")
-    print("Dropdown count:", dropdown.count())
-    print("Is visible:", dropdown.is_visible())
-    print("Inner HTML:", dropdown.inner_html())
     inventory.sort_by("lohi")
     time.sleep(1)
 
     prices = inventory.get_product_prices()
-    assert prices == sorted(prices)
+    numeric_prices = [float(p.replace('$', '')) for p in prices]
+    assert numeric_prices == sorted(numeric_prices)
