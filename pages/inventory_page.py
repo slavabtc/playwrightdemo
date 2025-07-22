@@ -19,3 +19,16 @@ class InventoryPage(BasePage):
         self.logger.info(f"Selecting sort option: {option_value}")
         self.page.locator(self.sort_dropdown).wait_for(state="visible", timeout=5000)
         self.page.locator(self.sort_dropdown).select_option(option_value)
+
+    def click_on_product_by_name(self, name: str):
+        self.page.locator(f"text={name}").click()
+
+    def add_product_to_cart_by_index(self, index: int):
+        self.page.locator(".inventory_item button", has_text="Add to cart").nth(index).click()
+
+    def remove_product_from_cart_by_index(self, index: int):
+        self.page.locator(".inventory_item button", has_text="Remove").nth(index).click()
+
+    def get_cart_count(self) -> int:
+        cart_badge = self.page.locator(".shopping_cart_badge")
+        return int(cart_badge.inner_text()) if cart_badge.is_visible() else 0

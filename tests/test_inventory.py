@@ -65,3 +65,30 @@ def test_sort_by_price_low_to_high(page):
     prices = inventory.get_product_prices()
     numeric_prices = [float(p.replace('$', '')) for p in prices]
     assert numeric_prices == sorted(numeric_prices)
+
+def test_product_detail_page_loads(page):
+    login = LoginPage(page)
+    login.load()
+    login.login(USERNAME, PASSWORD)
+
+    inventory = InventoryPage(page)
+    product_name = inventory.get_product_names()[0]
+    inventory.click_on_product_by_name(product_name)
+
+    assert "inventory-item" in page.url
+    assert inventory.page.locator(".inventory_details_name").inner_text() == product_name
+
+def test_add_and_remove_product_from_cart(page):
+    login = LoginPage(page)
+    login.load()
+    login.login(USERNAME, PASSWORD)
+
+    inventory = InventoryPage(page)
+
+    assert inventory.get_cart_count() == 0
+
+    inventory.add_product_to_cart_by_index(0)
+    assert inventory.get_cart_count() == 1
+
+    inventory.remove_product_from_cart_by_index(0)
+    assert inventory.get_cart_count() == 0
