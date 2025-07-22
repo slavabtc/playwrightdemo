@@ -35,3 +35,7 @@ class InventoryPage(BasePage):
 
     def click_cart_icon(self):
         self.page.locator(".shopping_cart_link").click()
+
+    def add_to_cart_by_index(self, index: int = 0):
+        buttons = self.page.locator('[data-test^="add-to-cart-"]')
+        buttons.nth(index).click()
