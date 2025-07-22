@@ -32,3 +32,6 @@ class InventoryPage(BasePage):
     def get_cart_count(self) -> int:
         cart_badge = self.page.locator(".shopping_cart_badge")
         return int(cart_badge.inner_text()) if cart_badge.is_visible() else 0
+
+    def click_cart_icon(self):
+        self.page.locator(".shopping_cart_link").click()

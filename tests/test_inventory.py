@@ -92,3 +92,15 @@ def test_add_and_remove_product_from_cart(page):
 
     inventory.remove_product_from_cart_by_index(0)
     assert inventory.get_cart_count() == 0
+
+def test_cart_icon_navigates_to_cart_page(page):
+    login = LoginPage(page)
+    login.load()
+    login.login(USERNAME, PASSWORD)
+
+    inventory = InventoryPage(page)
+    inventory.click_cart_icon()
+    time.sleep(1)
+
+    assert page.url.endswith("/cart.html")
+    assert page.locator(".cart_list").is_visible()
