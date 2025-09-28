@@ -13,3 +13,8 @@ class CartPage(BasePage):
 
     def click_checkout(self):
         self.click(self.checkout_button)
+
+    def remove_item_by_name(self, product_name: str):
+        item = self.page.locator(".cart_item").filter(has_text=product_name)
+        remove_btn = item.locator("button:has-text('Remove')")
+        remove_btn.click()

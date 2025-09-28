@@ -48,3 +48,20 @@ def test_checkout_button_visible(page):
 
     cart = CartPage(page)
     assert cart.is_visible(cart.checkout_button)
+
+def test_remove_item_from_cart(page):
+    login = LoginPage(page)
+    login.load()
+    login.login(USERNAME, PASSWORD)
+
+    inventory = InventoryPage(page)
+    inventory.add_to_cart_by_name("Sauce Labs Backpack")
+
+    cart_icon = inventory.page.locator("#shopping_cart_container")
+    cart_icon.click()
+
+    cart = CartPage(page)
+    assert cart.get_cart_item_count() == 1
+
+    cart.remove_item_by_name("Sauce Labs Backpack")
+    assert cart.get_cart_item_count() == 0

@@ -39,3 +39,9 @@ class InventoryPage(BasePage):
     def add_to_cart_by_index(self, index: int = 0):
         buttons = self.page.locator('[data-test^="add-to-cart-"]')
         buttons.nth(index).click()
+
+    def add_to_cart_by_name(self, product_name: str):
+        self.logger.info(f"Adding '{product_name}' to cart.")
+        product = self.page.locator(".inventory_item").filter(has_text=product_name)
+        add_button = product.locator("button:has-text('Add to cart')")
+        add_button.click()
